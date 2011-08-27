@@ -112,8 +112,8 @@ boolean PN532::SAMConfig(void) {
 }
 
 
-uint32_t PN532::readPassiveTargetID(uint8_t cardbaudrate) {
-  uint32_t cid;
+uint64_t PN532::readPassiveTargetID(uint8_t cardbaudrate) {
+  uint64_t cid;
   
   pn532_packetbuffer[0] = PN532_INLISTPASSIVETARGET;
   pn532_packetbuffer[1] = 1;  // max 1 cards at once (we can set this to 2 later)
@@ -223,8 +223,8 @@ void PN532::spiwritecommand(uint8_t* cmd, uint8_t cmdlen) {
   Serial.print(" 0x"); Serial.print(PN532_PREAMBLE, HEX);
   Serial.print(" 0x"); Serial.print(PN532_PREAMBLE, HEX);
   Serial.print(" 0x"); Serial.print(PN532_STARTCODE2, HEX);
-  Serial.print(" 0x"); Serial.print(cmdlen, HEX);
-  Serial.print(" 0x"); Serial.print(~cmdlen + 1, HEX);
+  Serial.print(" 0x"); Serial.print(cmdlen & 0xFF, HEX);
+  Serial.print(" 0x"); Serial.print((~cmdlen + 1) & 0xFF, HEX);
   Serial.print(" 0x"); Serial.print(PN532_HOSTTOPN532, HEX);
 #endif
 
@@ -241,7 +241,7 @@ void PN532::spiwritecommand(uint8_t* cmd, uint8_t cmdlen) {
   digitalWrite(_ss, HIGH);
 
 #ifdef PN532DEBUG
-  Serial.print(" 0x"); Serial.print(~checksum, HEX);
+  Serial.print(" 0x"); Serial.print((~checksum) & 0xFF, HEX);
   Serial.print(" 0x"); Serial.print(PN532_POSTAMBLE, HEX);
   Serial.println();
 #endif

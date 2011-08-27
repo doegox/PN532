@@ -5,6 +5,7 @@
 #define SS 4
 #define MISO 5
 
+
 PN532 nfc(SCK, MISO, MOSI, SS);
 
 void setup(void) {
@@ -35,7 +36,7 @@ void loop(void) {
   id = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A);
   
   if (id != 0) {
-    Serial.print("Read card #"); Serial.println(id);
+    Serial.print("Read card #"); Serial.println(id, HEX);
   }
 }
 

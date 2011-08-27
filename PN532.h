@@ -32,7 +32,7 @@ class PN532{
 
   boolean SAMConfig(void);
   uint32_t getFirmwareVersion(void);
-  uint32_t readPassiveTargetID(uint8_t cardbaudrate);
+  uint64_t readPassiveTargetID(uint8_t cardbaudrate);
 
   boolean sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout = 1000);
 
